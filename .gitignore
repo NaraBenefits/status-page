@@ -1,0 +1,4 @@
+node_modules/
+
+# Scratch output from `npm run export`, mirroring what Static Site CI builds.
+site/
