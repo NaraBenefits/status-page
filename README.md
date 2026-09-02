@@ -72,6 +72,13 @@ file be deleted.
 > The checks above target the post-migration hostnames, which do not resolve yet. Until the platform
 > serves them, every service on this page reads **down**. This is deliberate — the page describes the
 > target state — but do not read a red page as an outage before the cutover completes.
+>
+> Confirmed by the first `Uptime CI` run: `Could not resolve hostname` on all three curl attempts.
+>
+> The practical consequence, once `GH_PAT` exists: Upptime opens a `status` incident issue per
+> service (`🛑 <Service> is down`) and assigns `@AvantHealth/infra` to each, and they stay open until
+> the hostname resolves. To avoid five standing incidents and the notifications that come with them,
+> either hold this off until the cutover, or drop `assignees` from `.upptimerc.yml` in the meantime.
 
 Where each hostname stands today:
 
