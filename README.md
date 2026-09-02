@@ -141,13 +141,20 @@ Standing this repository up from scratch needs three things outside of it:
 
 1. **A `GH_PAT` repository secret — required, nothing works without it.** Upptime is a bot that
    commits to its own repository: uptime history, response-time graphs, the README summary, the
-   `gh-pages` deploy, and its own workflow files. The default `GITHUB_TOKEN` cannot do that here —
-   it is read-only on this repository, so every push 403s — and it can *never* write
-   `.github/workflows/`, whatever the repository's Actions permissions are set to, which is what
-   `Update Template CI` does. Create a fine-grained personal access token scoped to this repository
-   with read-write on **Actions, Contents, Issues and Workflows**, and store it as `GH_PAT`
+   `gh-pages` deploy, its own workflow files, and an issue per incident. This repository's default
+   `GITHUB_TOKEN` is read-only (`Contents: read`), so every Upptime workflow 403s — on `git push`,
+   and on the `POST /issues` that opens an incident. Create a fine-grained personal access token
+   scoped to this repository with read-write on **Actions, Contents, Issues and Workflows**, and
+   store it as `GH_PAT`
    ([upstream instructions](https://upptime.js.org/docs/get-started#create-a-personal-access-token)).
    Every workflow here already prefers it: `${{ secrets.GH_PAT || github.token }}`.
+
+   Two things that are *not* substitutes. A job-level `permissions:` block does raise
+   `GITHUB_TOKEN` above the read-only default — that is exactly how `mirror-master.yml` pushes — but
+   the eight Upptime workflows are generated output, and `update-template` rewrites them from
+   upstream templates that carry no such block, so any block added there is wiped on the next
+   `Update Template CI` run. And no permission setting of any kind lets `GITHUB_TOKEN` write
+   `.github/workflows/`, which is precisely what `update-template` does. Hence the PAT.
 2. **DNS** — `status.narabenefits.com` `CNAME` → `avanthealth.github.io`, in
    `aws/infra_851725292115/route53-narabenefits-com/main.tf` in `root-infrastructure`.
 3. **GitHub Pages** — deploy from the `gh-pages` branch, custom domain `status.narabenefits.com`,
