@@ -119,17 +119,24 @@ Serif for headings and Inter for everything else, loaded from Google Fonts.
 
 Standing this repository up from scratch needs three things outside of it:
 
-1. **DNS** — `status.narabenefits.com` `CNAME` → `avanthealth.github.io`, in
+1. **A `GH_PAT` repository secret — required, nothing works without it.** Upptime is a bot that
+   commits to its own repository: uptime history, response-time graphs, the README summary, the
+   `gh-pages` deploy, and its own workflow files. The default `GITHUB_TOKEN` cannot do that here —
+   it is read-only on this repository, so every push 403s — and it can *never* write
+   `.github/workflows/`, whatever the repository's Actions permissions are set to, which is what
+   `Update Template CI` does. Create a fine-grained personal access token scoped to this repository
+   with read-write on **Actions, Contents, Issues and Workflows**, and store it as `GH_PAT`
+   ([upstream instructions](https://upptime.js.org/docs/get-started#create-a-personal-access-token)).
+   Every workflow here already prefers it: `${{ secrets.GH_PAT || github.token }}`.
+2. **DNS** — `status.narabenefits.com` `CNAME` → `avanthealth.github.io`, in
    `aws/infra_851725292115/route53-narabenefits-com/main.tf` in `root-infrastructure`.
-2. **GitHub Pages** — deploy from the `gh-pages` branch, custom domain `status.narabenefits.com`,
+3. **GitHub Pages** — deploy from the `gh-pages` branch, custom domain `status.narabenefits.com`,
    *Enforce HTTPS* on. The `CNAME` file is written into the published output automatically from
    `status-website.cname`.
-3. **Domain verification** — verifying `narabenefits.com` under the organisation's Pages settings
-   adds a `_github-pages-challenge-AvantHealth` TXT record and blocks subdomain takeover. Recommended,
-   not required for the site to serve.
 
-Checks run under the default `GITHUB_TOKEN`. A `GH_PAT` repository secret is only needed if the
-Actions bot's commits should trigger downstream workflows.
+Recommended but not required for the site to serve: verifying `narabenefits.com` under the
+organisation's Pages settings adds a `_github-pages-challenge-AvantHealth` TXT record and blocks
+subdomain takeover.
 
 `secrets: []` in `.upptimerc.yml` is the complete allowlist: no Actions secret reaches the monitor,
 because every endpoint here is public. Wiring notifications later means adding the secret to the
