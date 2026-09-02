@@ -20,30 +20,35 @@ workflowSchedule:
   uptime: "*/10 * * * *"
 
 # Names and slugs are domain-free on purpose: history, graphs and API paths are
-# keyed off the slug, so the narabenefits.com cutover is a one-line `url` edit
-# per site with no loss of history. See README.md → Domain migration.
+# keyed off the slug, so a hostname change is a one-line `url` edit per site
+# with no loss of history. See README.md → Domain migration.
 #
 # Icons are served from this repo's assets/ rather than the default DuckDuckGo
 # favicon service, which would resolve our hostnames through a third party.
 sites:
   - name: Member Portal
     slug: member-portal
-    url: https://app.avanthealth.ai
+    url: https://app.narabenefits.com
     icon: https://status.narabenefits.com/nara-icon-64.png
     maxResponseTime: 5000
   - name: Employer Portal
     slug: employer-portal
-    url: https://employer.avanthealth.ai
+    url: https://employer.narabenefits.com
     icon: https://status.narabenefits.com/nara-icon-64.png
     maxResponseTime: 5000
   - name: Provider Portal
     slug: provider-portal
-    url: https://provider.avanthealth.ai
+    url: https://provider.narabenefits.com
+    icon: https://status.narabenefits.com/nara-icon-64.png
+    maxResponseTime: 5000
+  - name: ICHRA Portal
+    slug: ichra-portal
+    url: https://ichra.narabenefits.com
     icon: https://status.narabenefits.com/nara-icon-64.png
     maxResponseTime: 5000
   - name: Platform API
     slug: platform-api
-    url: https://app-api.avanthealth.ai/health
+    url: https://api.narabenefits.com/health
     icon: https://status.narabenefits.com/nara-icon-64.png
     maxResponseTime: 5000
     # ApiHealthController returns the literal string, so a 200 with an error

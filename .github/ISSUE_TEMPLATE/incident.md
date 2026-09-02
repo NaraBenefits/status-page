@@ -13,8 +13,8 @@ hand only for something the checks cannot see (a partial outage, a degraded
 downstream dependency, a data issue).
 
 Add the site slug as a second label so the incident attaches to the right
-service on the status page: member-portal, employer-portal, provider-portal
-or platform-api.
+service on the status page: member-portal, employer-portal, provider-portal,
+ichra-portal or platform-api.
 
 Everything below is PUBLIC. No member data — no member IDs, names, DOBs,
 addresses, TINs or SSNs — in the title, body or comments.
