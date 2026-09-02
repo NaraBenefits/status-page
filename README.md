@@ -34,20 +34,19 @@ than 5s is reported as degraded rather than down.
 
 | Service | Slug | Endpoint | Check |
 | --- | --- | --- | --- |
-| Member Portal | `member-portal` | `app.avanthealth.ai` | Front door, as a member reaches it (CloudFront + SPA shell) |
-| Employer Portal | `employer-portal` | `employer.avanthealth.ai` | Front door, as an employer admin reaches it (ALB → ECS) |
-| Provider Portal | `provider-portal` | `provider.avanthealth.ai` | Front door, as a provider reaches it (ALB → ECS) |
-| Platform API | `platform-api` | `app-api.avanthealth.ai/health` | 200 **and** a body containing `Healthy` |
+| Member Portal | `member-portal` | `app.narabenefits.com` | Front door, as a member reaches it (CloudFront + SPA shell) |
+| Employer Portal | `employer-portal` | `employer.narabenefits.com` | Front door, as an employer admin reaches it (ALB → ECS) |
+| Provider Portal | `provider-portal` | `provider.narabenefits.com` | Front door, as a provider reaches it (ALB → ECS) |
+| ICHRA Portal | `ichra-portal` | `ichra.narabenefits.com` | Front door, as an enrollee reaches it (ALB → ECS) |
+| Platform API | `platform-api` | `api.narabenefits.com/health` | 200 **and** a body containing `Healthy` |
 
 Deliberately excluded, because they are internal and their availability is not something we publish:
-`crm.avanthealth.ai`, `admin.avanthealth.ai`, `webhooks.avanthealth.ai`. The ICHRA portal
-(`ichra.avanthealth.ai`) is external but was outside the scope this page was built for — adding it is
-a four-line entry in `sites`.
+`crm.`, `admin.` and `webhooks.`.
 
 The portals are checked at their root rather than at `/health` on purpose: a status page should
 answer "can someone use this right now", which includes DNS, TLS, the load balancer and the login
-redirect. Both portals also expose a cheap `/health` liveness endpoint if a deeper check is ever
-wanted alongside the front-door one.
+redirect. All three ALB-backed portals also expose a cheap `/health` liveness endpoint if a deeper
+check is ever wanted alongside the front-door one.
 
 ## Changing what is checked
 
@@ -69,15 +68,29 @@ file be deleted.
 
 ## Domain migration
 
-The Nara cutover to `narabenefits.com` is in flight. The status page itself already lives on the new
-domain; the services it watches do not yet, so the checks still point at `avanthealth.ai`:
+> [!WARNING]
+> The checks above target the post-migration hostnames, which do not resolve yet. Until the platform
+> serves them, every service on this page reads **down**. This is deliberate — the page describes the
+> target state — but do not read a red page as an outage before the cutover completes.
 
-- `app.narabenefits.com` and `api.narabenefits.com` are delegated (`aws/htd1_867344455680/route53.tf`
-  in `root-infrastructure`) but not yet serving.
-- `employer.narabenefits.com` and `provider.narabenefits.com` have no zone yet.
+Where each hostname stands today:
 
-When a service moves, change that one `url` in `.upptimerc.yml` and leave `name` and `slug` alone —
-uptime history, graphs and incident links carry over unbroken.
+| Hostname | State |
+| --- | --- |
+| `app.narabenefits.com` | Zone exists and is delegated (`aws/htd1_867344455680/route53.tf` in `root-infrastructure`); no records, not serving |
+| `api.narabenefits.com` | Same — delegated, not serving |
+| `employer.narabenefits.com` | No hosted zone |
+| `provider.narabenefits.com` | No hosted zone |
+| `ichra.narabenefits.com` | No hosted zone |
+
+Each still serves from `avanthealth.ai` (`app.`, `app-api.`, `employer.`, `provider.`, `ichra.`).
+Completing the cutover needs, per hostname: a hosted zone in the HTD1 account, an `NS` delegation
+record in the parent `narabenefits.com` zone, an ACM certificate, and the domain wired into the
+CloudFront distribution or ALB listener rule in `avantai-platform`'s `infra/terraform`. None of that
+is in this repository.
+
+`name` and `slug` carry no domain, so any further hostname change is a one-line `url` edit here with
+uptime history, graphs and incident links intact.
 
 ## Incidents and maintenance
 
