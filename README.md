@@ -55,7 +55,7 @@ check is ever wanted alongside the front-door one.
 
 ## Changing what is checked
 
-Edit [`.upptimerc.yml`](.upptimerc.yml) and push to `main`. **Setup CI** picks up the change,
+Edit [`.upptimerc.yml`](.upptimerc.yml) and push to `master`. **Setup CI** picks up the change,
 regenerates the workflow files, refreshes the README table and redeploys the site — nothing under
 `.github/workflows/` should ever be hand-edited, it is generated output.
 
@@ -63,13 +63,16 @@ regenerates the workflow files, refreshes the README table and redeploys the sit
 directory and the per-service page on the website. Renaming a slug orphans all of that, so the slugs
 here are deliberately domain-free and should stay fixed even as hostnames change.
 
-There is one workflow here that Upptime did not generate:
-[`mirror-master.yml`](.github/workflows/mirror-master.yml). `@upptime/status-page` hardcodes a
-`master` ref when the browser fetches `history/summary.json` and the response-time graphs, and
-neither `apiBaseUrl` nor `userContentBaseUrl` can redirect it — on a repository whose default branch
-is `main`, the live status list comes up permanently empty. That workflow keeps `master`
-fast-forwarded to `main`. Renaming the default branch to `master` would do the same thing and let the
-file be deleted.
+The default branch is `master`, against house convention, and it has to stay that way.
+`@upptime/status-page` hardcodes a `master` ref when the browser fetches `history/summary.json` and
+the response-time graphs, and neither `apiBaseUrl` nor `userContentBaseUrl` can redirect it — rename
+this branch and the live status list and every graph 404.
+
+A `mirror-master.yml` workflow used to fast-forward `master` from a `main` default. It was deleted
+with the rename, and mirroring is the worse of the two options if this ever comes up again: Upptime's
+own commits carry `[skip ci]`, so only that workflow's `*/10` cron moved data onto `master` —
+publishing lagged reality by up to a full check interval, and a broken mirror froze the page at stale
+data without erroring.
 
 ## Domain migration
 
