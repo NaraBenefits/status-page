@@ -68,11 +68,10 @@ The default branch is `master`, against house convention, and it has to stay tha
 the response-time graphs, and neither `apiBaseUrl` nor `userContentBaseUrl` can redirect it — rename
 this branch and the live status list and every graph 404.
 
-A `mirror-master.yml` workflow used to fast-forward `master` from a `main` default. It was deleted
-with the rename, and mirroring is the worse of the two options if this ever comes up again: Upptime's
-own commits carry `[skip ci]`, so only that workflow's `*/10` cron moved data onto `master` —
-publishing lagged reality by up to a full check interval, and a broken mirror froze the page at stale
-data without erroring.
+Keeping a second branch in sync from a `main` default is not a substitute. Upptime's own commits
+carry `[skip ci]`, so nothing but a scheduled job would advance the copy: the page would publish on a
+clock of its own, lagging the history it describes, and would freeze at stale data without erroring
+the moment that job broke.
 
 ## Domain migration
 
@@ -161,7 +160,7 @@ Standing this repository up from scratch needs three things outside of it:
    Every workflow here already prefers it: `${{ secrets.GH_PAT || github.token }}`.
 
    Two things that are _not_ substitutes. A job-level `permissions:` block does raise
-   `GITHUB_TOKEN` above the read-only default — that is exactly how `mirror-master.yml` pushes — but
+   `GITHUB_TOKEN` above the read-only default and is enough for a workflow written by hand — but
    the eight Upptime workflows are generated output, and `update-template` rewrites them from
    upstream templates that carry no such block, so any block added there is wiped on the next
    `Update Template CI` run. And no permission setting of any kind lets `GITHUB_TOKEN` write
