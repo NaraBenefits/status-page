@@ -10,11 +10,11 @@
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 273,
-    "timeDay": 273,
-    "timeWeek": 273,
-    "timeMonth": 273,
-    "timeYear": 273,
+    "time": 238,
+    "timeDay": 238,
+    "timeWeek": 238,
+    "timeMonth": 238,
+    "timeYear": 238,
     "dailyMinutesDown": {}
   },
   {
@@ -23,18 +23,18 @@
     "icon": "https://status.narabenefits.com/nara-icon-64.png",
     "slug": "employer-portal",
     "status": "down",
-    "uptime": "27.48%",
-    "uptimeDay": "27.48%",
-    "uptimeWeek": "27.48%",
-    "uptimeMonth": "27.48%",
-    "uptimeYear": "27.48%",
+    "uptime": "2.12%",
+    "uptimeDay": "2.12%",
+    "uptimeWeek": "2.12%",
+    "uptimeMonth": "2.12%",
+    "uptimeYear": "2.12%",
     "time": 0,
     "timeDay": 0,
     "timeWeek": 0,
     "timeMonth": 0,
     "timeYear": 0,
     "dailyMinutesDown": {
-      "2026-09-03": 1
+      "2026-09-03": 17
     }
   },
   {
@@ -43,18 +43,18 @@
     "icon": "https://status.narabenefits.com/nara-icon-64.png",
     "slug": "provider-portal",
     "status": "down",
-    "uptime": "37.27%",
-    "uptimeDay": "37.27%",
-    "uptimeWeek": "37.27%",
-    "uptimeMonth": "37.27%",
-    "uptimeYear": "37.27%",
+    "uptime": "2.09%",
+    "uptimeDay": "2.09%",
+    "uptimeWeek": "2.09%",
+    "uptimeMonth": "2.09%",
+    "uptimeYear": "2.09%",
     "time": 0,
     "timeDay": 0,
     "timeWeek": 0,
     "timeMonth": 0,
     "timeYear": 0,
     "dailyMinutesDown": {
-      "2026-09-03": 1
+      "2026-09-03": 16
     }
   },
   {
@@ -63,18 +63,18 @@
     "icon": "https://status.narabenefits.com/nara-icon-64.png",
     "slug": "ichra-portal",
     "status": "down",
-    "uptime": "63.36%",
-    "uptimeDay": "63.36%",
-    "uptimeWeek": "63.36%",
-    "uptimeMonth": "63.36%",
-    "uptimeYear": "63.36%",
+    "uptime": "2.14%",
+    "uptimeDay": "2.14%",
+    "uptimeWeek": "2.14%",
+    "uptimeMonth": "2.14%",
+    "uptimeYear": "2.14%",
     "time": 0,
     "timeDay": 0,
     "timeWeek": 0,
     "timeMonth": 0,
     "timeYear": 0,
     "dailyMinutesDown": {
-      "2026-09-03": 0
+      "2026-09-03": 16
     }
   },
   {
@@ -88,11 +88,11 @@
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 244,
-    "timeDay": 244,
-    "timeWeek": 244,
-    "timeMonth": 244,
-    "timeYear": 244,
+    "time": 214,
+    "timeDay": 214,
+    "timeWeek": 214,
+    "timeMonth": 214,
+    "timeYear": 214,
     "dailyMinutesDown": {}
   }
 ]
