@@ -1,0 +1,99 @@
+# https://upptime.js.org/docs/configuration
+owner: NaraBenefits
+repo: status-page
+
+user-agent: narabenefits-admin
+
+# Every endpoint below is a public URL, so the checks themselves need no Actions
+# secret. This list is the whole allowlist: a name here reaches the monitor,
+# anything else does not. Slack posts to #platform-status once the
+# NOTIFICATION_SLACK_WEBHOOK_URL repository secret exists; until then the name
+# below is inert.
+secrets:
+  - NOTIFICATION_SLACK_WEBHOOK_URL
+
+workflowSchedule:
+  graphs: "0 0 * * *"
+  responseTime: "0 23 * * *"
+  staticSite: "0 1 * * *"
+  summary: "0 0 * * *"
+  updateTemplate: "0 0 * * *"
+  updates: "0 3 * * *"
+  uptime: "*/10 * * * *"
+
+# Names and slugs are domain-free on purpose: history, graphs and API paths are
+# keyed off the slug, so a hostname change is a one-line `url` edit per site
+# with no loss of history. See README.md → Domain migration.
+#
+# Icons are served from this repo's assets/ rather than the default DuckDuckGo
+# favicon service, which would resolve our hostnames through a third party.
+sites:
+  - name: Member Portal
+    slug: member-portal
+    url: https://app.narabenefits.com
+    icon: https://status.narabenefits.com/nara-icon-64.png
+    maxResponseTime: 5000
+  - name: Employer Portal
+    slug: employer-portal
+    url: https://employer.narabenefits.com
+    icon: https://status.narabenefits.com/nara-icon-64.png
+    maxResponseTime: 5000
+  - name: Provider Portal
+    slug: provider-portal
+    url: https://provider.narabenefits.com
+    icon: https://status.narabenefits.com/nara-icon-64.png
+    maxResponseTime: 5000
+  - name: ICHRA Portal
+    slug: ichra-portal
+    url: https://ichra.narabenefits.com
+    icon: https://status.narabenefits.com/nara-icon-64.png
+    maxResponseTime: 5000
+  - name: Platform API
+    slug: platform-api
+    url: https://api.narabenefits.com/health
+    icon: https://status.narabenefits.com/nara-icon-64.png
+    maxResponseTime: 5000
+    # ApiHealthController returns the literal string, so a 200 with an error
+    # page behind a proxy still reads as down.
+    __dangerous__body_down_if_text_missing: "Healthy"
+
+# No assignees until the narabenefits.com cutover. With GH_PAT in place and the
+# hostnames still not resolving, Upptime opens a down-incident issue per service
+# and would assign every one of them. Restore `assignees: [NaraBenefits/admin]`
+# once the hostnames serve.
+
+status-website:
+  cname: status.narabenefits.com
+  name: Nara Health Status
+  logoUrl: https://status.narabenefits.com/nara-lockup-linen.svg
+  hideNavTitle: true
+  favicon: https://status.narabenefits.com/favicon.png
+  faviconSvg: https://status.narabenefits.com/nara-symbol-forest.svg
+  introTitle: Nara Health Platform Status
+  introMessage:
+    "Real-time status for the Nara Health platform. Visit [narabenefits.com](https://www.narabenefits.com)
+    to learn more, or [email support](mailto:support@narabenefits.com) if something here doesn't match what you're seeing."
+  # themeUrl replaces Upptime's built-in themes; `links` loads after Upptime's
+  # global.css, which is where the selector-level overrides have to sit.
+  themeUrl: https://status.narabenefits.com/nara-theme.css
+  links:
+    - rel: stylesheet
+      href: https://status.narabenefits.com/nara-brand.css
+    - rel: apple-touch-icon
+      href: https://status.narabenefits.com/apple-touch-icon.png
+  customHeadHtml:
+    '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect"
+    href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&amp;family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&amp;display=swap">'
+  metaTags:
+    - name: color-scheme
+      content: light
+  navbar:
+    - title: Status
+      href: /
+    - title: Nara Health
+      href: https://www.narabenefits.com
+    - title: Support
+      href: mailto:support@narabenefits.com
+
+i18n:
+  footer: "[Nara Health](https://www.narabenefits.com) · [open source]($REPO), powered by [Upptime](https://upptime.js.org)"

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Platform bug or feature request
+    url: https://github.com/AvantHealth/avantai-platform/issues/new
+    about: This repository only tracks status-page incidents and maintenance windows.
+  - name: Support
+    url: mailto:support@narabenefits.com
+    about: Get help from the Nara Health support team.

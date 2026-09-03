@@ -1,0 +1,66 @@
+/*
+ * Nara Health status page — colour theme.
+ *
+ * Loaded through `status-website.themeUrl`, which replaces Upptime's built-in
+ * light/dark themes entirely. Upptime's own global.css loads *after* this file,
+ * so this file only declares custom properties (global.css reads them, it never
+ * sets them). Selector-level styling lives in nara-brand.css.
+ *
+ * Palette source of truth: AvantHealth/nara-brand → README.md.
+ */
+
+:root {
+  --nara-forest: #0e3837;
+  --nara-leaf: #0a6f4f;
+  --nara-sprout: #b3fdbe;
+  --nara-linen: #fffbec;
+  --nara-carrot: #ff8a45;
+
+  /* The brand palette carries no red, and a status page has to distinguish
+     "slow" from "broken" at a glance. This is the one off-palette value: a
+     muted brick that sits with Carrot and clears AA against Linen (6.31) and
+     with Linen on top of it (6.31). */
+  --nara-alert: #b3261e;
+  --nara-alert-wash: #fbe7e2;
+
+  --nara-hairline: #ded7c2;
+  --nara-surface: #ffffff;
+
+  /* Upptime variables */
+  --body-background-color: var(--nara-linen);
+  --body-text-color: var(--nara-forest);
+
+  --card-background-color: var(--nara-surface);
+  --card-border-color: var(--nara-hairline);
+
+  --nav-background-color: var(--nara-forest);
+  --nav-border-bottom-color: var(--nara-leaf);
+  --nav-current-border-bottom-color: var(--nara-sprout);
+
+  --up-border-left-color: var(--nara-leaf);
+  --degraded-border-left-color: var(--nara-carrot);
+  --down-border-left-color: var(--nara-alert);
+  --down-background-color: var(--nara-alert-wash);
+
+  /* One shared text colour across all three tags; nara-brand.css re-states it
+     per state so Carrot keeps Forest on top of it instead of Linen. */
+  --tag-color: var(--nara-linen);
+  --tag-up-background-color: var(--nara-leaf);
+  --tag-degraded-background-color: var(--nara-carrot);
+  --tag-down-background-color: var(--nara-alert);
+
+  --change-background-color: var(--nara-carrot);
+
+  --code-color: var(--nara-forest);
+  --code-background-color: #f3ecd8;
+
+  --error-button-border-color: var(--nara-forest);
+  --error-button-background-color: var(--nara-forest);
+  --error-button-color: var(--nara-linen);
+  --submit-button-border-color: var(--nara-leaf);
+  --submit-button-background-color: var(--nara-leaf);
+  --submit-button-color: var(--nara-linen);
+
+  --graph-opacity: 1;
+  --graph-filter: none;
+}
