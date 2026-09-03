@@ -1,6 +1,6 @@
 # [📈 Live Status](https://status.narabenefits.com): <!--live status--> **🟧 Partial outage**
 
-The public uptime monitor and status page for the [Nara Health](https://www.narabenefits.com)
+The public uptime monitor and status page for the [Nara](https://www.narabenefits.com)
 platform, published at **[status.narabenefits.com](https://status.narabenefits.com)** and powered by
 [Upptime](https://github.com/upptime/upptime).
 
