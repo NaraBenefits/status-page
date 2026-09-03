@@ -1,7 +1,7 @@
 {
   "background_color": "#fffbec",
   "theme_color": "#0e3837",
-  "name": "Nara Health Status",
+  "name": "Nara Status",
   "short_name": "Nara Status",
   "display": "minimal-ui",
   "start_url": "/",

@@ -64,14 +64,14 @@ sites:
 
 status-website:
   cname: status.narabenefits.com
-  name: Nara Health Status
+  name: Nara Status
   logoUrl: https://status.narabenefits.com/nara-lockup-linen.svg
   hideNavTitle: true
   favicon: https://status.narabenefits.com/favicon.png
   faviconSvg: https://status.narabenefits.com/nara-symbol-forest.svg
-  introTitle: Nara Health Platform Status
+  introTitle: Nara Platform Status
   introMessage:
-    "Real-time status for the Nara Health platform. Visit [narabenefits.com](https://www.narabenefits.com)
+    "Real-time status for the Nara platform. Visit [narabenefits.com](https://www.narabenefits.com)
     to learn more, or [email support](mailto:support@narabenefits.com) if something here doesn't match what you're seeing."
   # themeUrl replaces Upptime's built-in themes; `links` loads after Upptime's
   # global.css, which is where the selector-level overrides have to sit.
@@ -90,10 +90,10 @@ status-website:
   navbar:
     - title: Status
       href: /
-    - title: Nara Health
+    - title: Nara
       href: https://www.narabenefits.com
     - title: Support
       href: mailto:support@narabenefits.com
 
 i18n:
-  footer: "[Nara Health](https://www.narabenefits.com) · [open source]($REPO), powered by [Upptime](https://upptime.js.org)"
+  footer: "[Nara](https://www.narabenefits.com) · [open source]($REPO), powered by [Upptime](https://upptime.js.org)"
