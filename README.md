@@ -55,7 +55,7 @@ check is ever wanted alongside the front-door one.
 
 ## Changing what is checked
 
-Edit [`.upptimerc.yml`](.upptimerc.yml) and push to `main`. **Setup CI** picks up the change,
+Edit [`.upptimerc.yml`](.upptimerc.yml) and push to `master`. **Setup CI** picks up the change,
 regenerates the workflow files, refreshes the README table and redeploys the site — nothing under
 `.github/workflows/` should ever be hand-edited, it is generated output.
 
@@ -63,13 +63,10 @@ regenerates the workflow files, refreshes the README table and redeploys the sit
 directory and the per-service page on the website. Renaming a slug orphans all of that, so the slugs
 here are deliberately domain-free and should stay fixed even as hostnames change.
 
-There is one workflow here that Upptime did not generate:
-[`mirror-master.yml`](.github/workflows/mirror-master.yml). `@upptime/status-page` hardcodes a
-`master` ref when the browser fetches `history/summary.json` and the response-time graphs, and
-neither `apiBaseUrl` nor `userContentBaseUrl` can redirect it — on a repository whose default branch
-is `main`, the live status list comes up permanently empty. That workflow keeps `master`
-fast-forwarded to `main`. Renaming the default branch to `master` would do the same thing and let the
-file be deleted.
+The default branch is `master`, against house convention, and it has to stay that way.
+`@upptime/status-page` hardcodes a `master` ref when the browser fetches `history/summary.json` and
+the response-time graphs, and neither `apiBaseUrl` nor `userContentBaseUrl` can redirect it — rename
+this branch and the live status list and every graph 404.
 
 ## Domain migration
 
@@ -158,7 +155,7 @@ Standing this repository up from scratch needs three things outside of it:
    Every workflow here already prefers it: `${{ secrets.GH_PAT || github.token }}`.
 
    Two things that are _not_ substitutes. A job-level `permissions:` block does raise
-   `GITHUB_TOKEN` above the read-only default — that is exactly how `mirror-master.yml` pushes — but
+   `GITHUB_TOKEN` above the read-only default and is enough for a workflow written by hand — but
    the eight Upptime workflows are generated output, and `update-template` rewrites them from
    upstream templates that carry no such block, so any block added there is wiped on the next
    `Update Template CI` run. And no permission setting of any kind lets `GITHUB_TOKEN` write
