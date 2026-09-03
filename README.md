@@ -68,11 +68,6 @@ The default branch is `master`, against house convention, and it has to stay tha
 the response-time graphs, and neither `apiBaseUrl` nor `userContentBaseUrl` can redirect it — rename
 this branch and the live status list and every graph 404.
 
-Keeping a second branch in sync from a `main` default is not a substitute. Upptime's own commits
-carry `[skip ci]`, so nothing but a scheduled job would advance the copy: the page would publish on a
-clock of its own, lagging the history it describes, and would freeze at stale data without erroring
-the moment that job broke.
-
 ## Domain migration
 
 > [!WARNING]
