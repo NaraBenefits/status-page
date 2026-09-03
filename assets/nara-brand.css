@@ -1,0 +1,122 @@
+/*
+ * Nara Health status page — typography and component styling.
+ *
+ * Loaded through `status-website.links`, which Upptime emits *after* its own
+ * global.css. Colour values come from the custom properties in nara-theme.css.
+ *
+ * Selectors are deliberately over-qualified: several rules here compete with
+ * global.css at equal specificity, and `.logo`/`.icon` compete with Svelte's
+ * scoped `.svelte-<hash>` classes, which score a class higher than the plain
+ * selector would.
+ */
+
+html body {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body h1,
+body h2 {
+  font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+body h1 {
+  font-size: 2.5em;
+}
+
+/* Nav — Linen signature on a Forest bar. */
+
+body nav {
+  color: var(--nara-linen);
+}
+
+body nav a {
+  color: var(--nara-linen);
+}
+
+body nav a:hover {
+  color: var(--nara-sprout);
+}
+
+body nav [aria-current] {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+/* Cards */
+
+body article {
+  border-radius: 0.5rem;
+}
+
+body article + article {
+  margin-top: 0.75rem;
+}
+
+body article h4 {
+  font-weight: 600;
+}
+
+body article img.icon {
+  border-radius: 0.25rem;
+}
+
+/* Tags — Carrot is too light for Linen text (2.26), so each state states its
+   own foreground rather than sharing --tag-color. */
+
+body .tag {
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+body .tag.up,
+body .tag.closed,
+body .tag.down,
+body .tag.open {
+  color: var(--nara-linen);
+}
+
+body .tag.degraded {
+  color: var(--nara-forest);
+}
+
+/* Buttons */
+
+body a.error-button,
+body .submit-button {
+  border-radius: 999px;
+}
+
+/* Phones — this page gets read on one during an outage. The navbar scrolls
+   horizontally upstream; tightening the lockup and the link padding is what
+   keeps the links on screen without it. `!important` is against Svelte's
+   scoped `.logo.svelte-<hash> img.svelte-<hash>`, which no plain selector
+   here can outrank. */
+
+@media (max-width: 640px) {
+  body .container {
+    padding: 0 1.25rem;
+  }
+
+  body h1 {
+    font-size: 2.1em;
+  }
+
+  body nav .logo img {
+    height: 2.25rem !important;
+    margin-right: 0.75rem !important;
+  }
+
+  body nav .logo {
+    margin-right: 1rem !important;
+  }
+
+  body nav ul a {
+    padding: 1.25rem 1rem !important;
+  }
+}
