@@ -1,5 +1,5 @@
 /*
- * Nara Health status page — colour theme.
+ * Nara status page — colour theme.
  *
  * Loaded through `status-website.themeUrl`, which replaces Upptime's built-in
  * light/dark themes entirely. Upptime's own global.css loads *after* this file,
