@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Member Portal",
+    "url": "https://app.narabenefits.com",
+    "icon": "https://status.narabenefits.com/nara-icon-64.png",
+    "slug": "member-portal",
+    "status": "up",
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 273,
+    "timeDay": 273,
+    "timeWeek": 273,
+    "timeMonth": 273,
+    "timeYear": 273,
+    "dailyMinutesDown": {}
+  },
+  {
+    "name": "Employer Portal",
+    "url": "https://employer.narabenefits.com",
+    "icon": "https://status.narabenefits.com/nara-icon-64.png",
+    "slug": "employer-portal",
+    "status": "down",
+    "uptime": "29.58%",
+    "uptimeDay": "29.58%",
+    "uptimeWeek": "29.58%",
+    "uptimeMonth": "29.58%",
+    "uptimeYear": "29.58%",
+    "time": 0,
+    "timeDay": 0,
+    "timeWeek": 0,
+    "timeMonth": 0,
+    "timeYear": 0,
+    "dailyMinutesDown": {
+      "2026-09-03": 1
+    }
+  },
+  {
+    "name": "Provider Portal",
+    "url": "https://provider.narabenefits.com",
+    "icon": "https://status.narabenefits.com/nara-icon-64.png",
+    "slug": "provider-portal",
+    "status": "down",
+    "uptime": "43.55%",
+    "uptimeDay": "43.55%",
+    "uptimeWeek": "43.55%",
+    "uptimeMonth": "43.55%",
+    "uptimeYear": "43.55%",
+    "time": 0,
+    "timeDay": 0,
+    "timeWeek": 0,
+    "timeMonth": 0,
+    "timeYear": 0,
+    "dailyMinutesDown": {
+      "2026-09-03": 0
+    }
+  },
+  {
+    "name": "ICHRA Portal",
+    "url": "https://ichra.narabenefits.com",
+    "icon": "https://status.narabenefits.com/nara-icon-64.png",
+    "slug": "ichra-portal",
+    "status": "down",
+    "uptime": "77.51%",
+    "uptimeDay": "77.51%",
+    "uptimeWeek": "77.51%",
+    "uptimeMonth": "77.51%",
+    "uptimeYear": "77.51%",
+    "time": 0,
+    "timeDay": 0,
+    "timeWeek": 0,
+    "timeMonth": 0,
+    "timeYear": 0,
+    "dailyMinutesDown": {
+      "2026-09-03": 0
+    }
+  },
+  {
+    "name": "Platform API",
+    "url": "https://api.narabenefits.com/health",
+    "icon": "https://status.narabenefits.com/nara-icon-64.png",
+    "slug": "platform-api",
+    "status": "up",
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 244,
+    "timeDay": 244,
+    "timeWeek": 244,
+    "timeMonth": 244,
+    "timeYear": 244,
+    "dailyMinutesDown": {}
+  }
+]
