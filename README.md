@@ -4,14 +4,14 @@ The public uptime monitor and status page for the [Nara Health](https://www.nara
 platform, published at **[status.narabenefits.com](https://status.narabenefits.com)** and powered by
 [Upptime](https://github.com/upptime/upptime).
 
-[![Uptime CI](https://github.com/AvantHealth/status-page/workflows/Uptime%20CI/badge.svg)](https://github.com/AvantHealth/status-page/actions?query=workflow%3A%22Uptime+CI%22)
-[![Response Time CI](https://github.com/AvantHealth/status-page/workflows/Response%20Time%20CI/badge.svg)](https://github.com/AvantHealth/status-page/actions?query=workflow%3A%22Response+Time+CI%22)
-[![Graphs CI](https://github.com/AvantHealth/status-page/workflows/Graphs%20CI/badge.svg)](https://github.com/AvantHealth/status-page/actions?query=workflow%3A%22Graphs+CI%22)
-[![Static Site CI](https://github.com/AvantHealth/status-page/workflows/Static%20Site%20CI/badge.svg)](https://github.com/AvantHealth/status-page/actions?query=workflow%3A%22Static+Site+CI%22)
-[![Summary CI](https://github.com/AvantHealth/status-page/workflows/Summary%20CI/badge.svg)](https://github.com/AvantHealth/status-page/actions?query=workflow%3A%22Summary+CI%22)
+[![Uptime CI](https://github.com/NaraBenefits/status-page/workflows/Uptime%20CI/badge.svg)](https://github.com/NaraBenefits/status-page/actions?query=workflow%3A%22Uptime+CI%22)
+[![Response Time CI](https://github.com/NaraBenefits/status-page/workflows/Response%20Time%20CI/badge.svg)](https://github.com/NaraBenefits/status-page/actions?query=workflow%3A%22Response+Time+CI%22)
+[![Graphs CI](https://github.com/NaraBenefits/status-page/workflows/Graphs%20CI/badge.svg)](https://github.com/NaraBenefits/status-page/actions?query=workflow%3A%22Graphs+CI%22)
+[![Static Site CI](https://github.com/NaraBenefits/status-page/workflows/Static%20Site%20CI/badge.svg)](https://github.com/NaraBenefits/status-page/actions?query=workflow%3A%22Static+Site+CI%22)
+[![Summary CI](https://github.com/NaraBenefits/status-page/workflows/Summary%20CI/badge.svg)](https://github.com/NaraBenefits/status-page/actions?query=workflow%3A%22Summary+CI%22)
 
-There is no server. [Actions](https://github.com/AvantHealth/status-page/actions) run the checks,
-[Issues](https://github.com/AvantHealth/status-page/issues) are the incident reports, and
+There is no server. [Actions](https://github.com/NaraBenefits/status-page/actions) run the checks,
+[Issues](https://github.com/NaraBenefits/status-page/issues) are the incident reports, and
 [Pages](https://status.narabenefits.com) serves the site.
 
 <!--start: status pages-->
@@ -76,9 +76,9 @@ file be deleted.
 > Confirmed by the first `Uptime CI` run: `Could not resolve hostname` on all three curl attempts.
 >
 > The practical consequence, once `GH_PAT` exists: Upptime opens a `status` incident issue per
-> service (`🛑 <Service> is down`) and assigns `@AvantHealth/infra` to each, and they stay open until
-> the hostname resolves. To avoid five standing incidents and the notifications that come with them,
-> either hold this off until the cutover, or drop `assignees` from `.upptimerc.yml` in the meantime.
+> service (`🛑 <Service> is down`), and they stay open until the hostname resolves. This is why
+> `.upptimerc.yml` carries no `assignees` — five standing incidents are tolerable, five standing
+> incidents that page a team are not. Restore `assignees: [NaraBenefits/admin]` after the cutover.
 
 Where each hostname stands today:
 
@@ -103,7 +103,8 @@ uptime history, graphs and incident links intact.
 
 Upptime opens an issue labelled `status` plus the site slug when a check fails, comments on it while
 it stays down, and closes it on recovery; issues open for under 15 minutes are deleted rather than
-closed. Team members in `@AvantHealth/infra` are assigned automatically.
+closed. Nobody is assigned automatically until `assignees` is restored after the cutover, so until
+then incidents are found by watching the repository or `#platform-status`, not by being assigned.
 
 Announce planned work with the **Scheduled maintenance** issue template. The HTML comment at the top
 of that template is parsed, not decorative: `start`/`end` in UTC ISO-8601 and `expectedDown` /
@@ -145,7 +146,9 @@ Standing this repository up from scratch needs three things outside of it:
    `GITHUB_TOKEN` is read-only (`Contents: read`), so every Upptime workflow 403s — on `git push`,
    and on the `POST /issues` that opens an incident. Create a fine-grained personal access token
    scoped to this repository with read-write on **Actions, Contents, Issues and Workflows**, and
-   store it as `GH_PAT`
+   store it as `GH_PAT`. Issue it from **`narabenefits-admin`**, the shared continuity account, not
+   from a personal one — every uptime commit, incident and deploy is attributed to the token holder,
+   and a token tied to an individual dies silently when their access does
    ([upstream instructions](https://upptime.js.org/docs/get-started#create-a-personal-access-token)).
    Every workflow here already prefers it: `${{ secrets.GH_PAT || github.token }}`.
 
@@ -155,20 +158,23 @@ Standing this repository up from scratch needs three things outside of it:
    upstream templates that carry no such block, so any block added there is wiped on the next
    `Update Template CI` run. And no permission setting of any kind lets `GITHUB_TOKEN` write
    `.github/workflows/`, which is precisely what `update-template` does. Hence the PAT.
-2. **DNS** — `status.narabenefits.com` `CNAME` → `avanthealth.github.io`, in
-   `aws/infra_851725292115/route53-narabenefits-com/main.tf` in `root-infrastructure`.
+2. **DNS** — `status.narabenefits.com` `CNAME` → `narabenefits.github.io`, in
+   `aws/infra_851725292115/route53-narabenefits-com/main.tf` in `root-infrastructure`. A project
+   Pages site serves from `<owner>.github.io`, so the target follows the organisation: the pre-move
+   `avanthealth.github.io` is wrong now and will not serve.
 3. **GitHub Pages** — deploy from the `gh-pages` branch, custom domain `status.narabenefits.com`,
    *Enforce HTTPS* on. The `CNAME` file is written into the published output automatically from
    `status-website.cname`.
 
-Recommended but not required for the site to serve: verifying `narabenefits.com` under the
-organisation's Pages settings adds a `_github-pages-challenge-AvantHealth` TXT record and blocks
-subdomain takeover.
+`status.narabenefits.com` is already verified as this repository's custom domain, which also blocks
+subdomain takeover. The `_github-pages-challenge-…` TXT record backing that is per-organisation, so
+it is the NaraBenefits one, not the record issued to the old organisation.
 
-`secrets: []` in `.upptimerc.yml` is the complete allowlist: no Actions secret reaches the monitor,
-because every endpoint here is public. Wiring notifications later means adding the secret to the
-repository *and* its name to that list — for example `NOTIFICATION_SLACK_WEBHOOK_URL`, which is the
-obvious next addition and the one thing this page does not yet do.
+`secrets` in `.upptimerc.yml` is the complete allowlist: only a name listed there reaches the
+monitor. It holds one entry, `NOTIFICATION_SLACK_WEBHOOK_URL`, which stays inert until the matching
+repository secret exists. Adding it turns on incident notifications to **`#platform-status`** — the
+webhook's own channel binding is what actually decides the destination, so point it there when
+creating it.
 
 ## 📄 License
 

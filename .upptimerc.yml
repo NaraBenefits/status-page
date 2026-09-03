@@ -1,14 +1,16 @@
 # https://upptime.js.org/docs/configuration
-owner: AvantHealth
+owner: NaraBenefits
 repo: status-page
 
-user-agent: barretthafner
+user-agent: narabenefits-admin
 
-# Every endpoint below is a public URL, so the monitor needs no Actions secret.
-# An explicit empty list is the whole allowlist — add a name here (and the
-# secret to the repository) when wiring notifications, e.g.
-# NOTIFICATION_SLACK_WEBHOOK_URL.
-secrets: []
+# Every endpoint below is a public URL, so the checks themselves need no Actions
+# secret. This list is the whole allowlist: a name here reaches the monitor,
+# anything else does not. Slack posts to #platform-status once the
+# NOTIFICATION_SLACK_WEBHOOK_URL repository secret exists; until then the name
+# below is inert.
+secrets:
+  - NOTIFICATION_SLACK_WEBHOOK_URL
 
 workflowSchedule:
   graphs: "0 0 * * *"
@@ -55,8 +57,10 @@ sites:
     # page behind a proxy still reads as down.
     __dangerous__body_down_if_text_missing: "Healthy"
 
-assignees:
-  - AvantHealth/infra
+# No assignees until the narabenefits.com cutover. With GH_PAT in place and the
+# hostnames still not resolving, Upptime opens a down-incident issue per service
+# and would assign every one of them. Restore `assignees: [NaraBenefits/admin]`
+# once the hostnames serve.
 
 status-website:
   cname: status.narabenefits.com
