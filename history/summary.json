@@ -34,7 +34,7 @@
     "timeMonth": 0,
     "timeYear": 0,
     "dailyMinutesDown": {
-      "2026-09-10": 7,
+      "2026-09-10": 320,
       "2026-09-09": 1440,
       "2026-09-08": 1440,
       "2026-09-07": 1440,
@@ -49,17 +49,17 @@
     "url": "https://provider.narabenefits.com",
     "icon": "https://status.narabenefits.com/nara-icon-64.png",
     "slug": "provider-portal",
-    "status": "up",
-    "uptime": "0.45%",
-    "uptimeDay": "2.68%",
-    "uptimeWeek": "0.45%",
-    "uptimeMonth": "0.45%",
-    "uptimeYear": "0.45%",
-    "time": 132,
-    "timeDay": 132,
-    "timeWeek": 132,
-    "timeMonth": 132,
-    "timeYear": 132,
+    "status": "down",
+    "uptime": "3.90%",
+    "uptimeDay": "24.41%",
+    "uptimeWeek": "3.90%",
+    "uptimeMonth": "3.90%",
+    "uptimeYear": "3.90%",
+    "time": 241,
+    "timeDay": 241,
+    "timeWeek": 241,
+    "timeMonth": 241,
+    "timeYear": 241,
     "dailyMinutesDown": {
       "2026-09-09": 1408,
       "2026-09-08": 1440,
@@ -67,7 +67,8 @@
       "2026-09-06": 1440,
       "2026-09-05": 1440,
       "2026-09-04": 1440,
-      "2026-09-03": 66
+      "2026-09-03": 66,
+      "2026-09-10": 0
     }
   },
   {
@@ -87,7 +88,7 @@
     "timeMonth": 0,
     "timeYear": 0,
     "dailyMinutesDown": {
-      "2026-09-10": 7,
+      "2026-09-10": 320,
       "2026-09-09": 1440,
       "2026-09-08": 1440,
       "2026-09-07": 1440,
