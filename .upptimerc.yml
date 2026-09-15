@@ -6,7 +6,7 @@ user-agent: narabenefits-admin
 
 # Every endpoint below is a public URL, so the checks themselves need no Actions
 # secret. This list is the whole allowlist: a name here reaches the monitor,
-# anything else does not. Slack posts to #platform-status once the
+# anything else does not. Slack notifications start once the
 # NOTIFICATION_SLACK_WEBHOOK_URL repository secret exists; until then the name
 # below is inert.
 secrets:

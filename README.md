@@ -37,21 +37,19 @@ There is no server. [Actions](https://github.com/NaraBenefits/status-page/action
 Every external Nara surface, checked from GitHub-hosted runners every 10 minutes. Anything slower
 than 5s is reported as degraded rather than down.
 
-| Service         | Slug              | Endpoint                      | Check                                                       |
-| --------------- | ----------------- | ----------------------------- | ----------------------------------------------------------- |
-| Member Portal   | `member-portal`   | `app.narabenefits.com`        | Front door, as a member reaches it (CloudFront + SPA shell) |
-| Employer Portal | `employer-portal` | `employer.narabenefits.com`   | Front door, as an employer admin reaches it (ALB → ECS)     |
-| Provider Portal | `provider-portal` | `provider.narabenefits.com`   | Front door, as a provider reaches it (ALB → ECS)            |
-| ICHRA Portal    | `ichra-portal`    | `ichra.narabenefits.com`      | Front door, as an enrollee reaches it (ALB → ECS)           |
-| Platform API    | `platform-api`    | `api.narabenefits.com/health` | 200 **and** a body containing `Healthy`                     |
+| Service         | Slug              | Endpoint                      | Check                                     |
+| --------------- | ----------------- | ----------------------------- | ----------------------------------------- |
+| Member Portal   | `member-portal`   | `app.narabenefits.com`        | Front door, as a member reaches it        |
+| Employer Portal | `employer-portal` | `employer.narabenefits.com`   | Front door, as an employer admin reaches it |
+| Provider Portal | `provider-portal` | `provider.narabenefits.com`   | Front door, as a provider reaches it      |
+| ICHRA Portal    | `ichra-portal`    | `ichra.narabenefits.com`      | Front door, as an enrollee reaches it     |
+| Platform API    | `platform-api`    | `api.narabenefits.com/health` | 200 **and** a body containing `Healthy`   |
 
-Deliberately excluded, because they are internal and their availability is not something we publish:
-`crm.`, `admin.` and `webhooks.`.
+Internal surfaces are deliberately excluded — their availability is not something we publish here.
 
-The portals are checked at their root rather than at `/health` on purpose: a status page should
-answer "can someone use this right now", which includes DNS, TLS, the load balancer and the login
-redirect. All three ALB-backed portals also expose a cheap `/health` liveness endpoint if a deeper
-check is ever wanted alongside the front-door one.
+The portals are checked at their root rather than at a health endpoint on purpose: a status page
+should answer "can someone use this right now", which includes DNS, TLS, the load balancer and the
+login redirect.
 
 ## Changing what is checked
 
@@ -84,19 +82,16 @@ this branch and the live status list and every graph 404.
 
 Where each hostname stands today:
 
-| Hostname                    | State                                                                                                               |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `app.narabenefits.com`      | Zone exists and is delegated (`aws/htd1_867344455680/route53.tf` in `root-infrastructure`); no records, not serving |
-| `api.narabenefits.com`      | Same — delegated, not serving                                                                                       |
-| `employer.narabenefits.com` | No hosted zone                                                                                                      |
-| `provider.narabenefits.com` | No hosted zone                                                                                                      |
-| `ichra.narabenefits.com`    | No hosted zone                                                                                                      |
+| Hostname                    | State                                   |
+| --------------------------- | --------------------------------------- |
+| `app.narabenefits.com`      | Zone delegated; no records, not serving |
+| `api.narabenefits.com`      | Same — delegated, not serving           |
+| `employer.narabenefits.com` | No hosted zone                          |
+| `provider.narabenefits.com` | No hosted zone                          |
+| `ichra.narabenefits.com`    | No hosted zone                          |
 
-Each still serves from `avanthealth.ai` (`app.`, `app-api.`, `employer.`, `provider.`, `ichra.`).
-Completing the cutover needs, per hostname: a hosted zone in the HTD1 account, an `NS` delegation
-record in the parent `narabenefits.com` zone, an ACM certificate, and the domain wired into the
-CloudFront distribution or ALB listener rule in `avantai-platform`'s `infra/terraform`. None of that
-is in this repository.
+Each still serves from its pre-migration hostname. Completing the cutover is DNS, certificate and
+edge-routing work tracked in our internal infrastructure repositories — none of it lives here.
 
 `name` and `slug` carry no domain, so any further hostname change is a one-line `url` edit here with
 uptime history, graphs and incident links intact.
@@ -106,7 +101,8 @@ uptime history, graphs and incident links intact.
 Upptime opens an issue labelled `status` plus the site slug when a check fails, comments on it while
 it stays down, and closes it on recovery; issues open for under 15 minutes are deleted rather than
 closed. Nobody is assigned automatically until `assignees` is restored after the cutover, so until
-then incidents are found by watching the repository or `#platform-status`, not by being assigned.
+then incidents are found by watching the repository or our internal Slack channel, not by being
+assigned.
 
 Announce planned work with the **Scheduled maintenance** issue template. The HTML comment at the top
 of that template is parsed, not decorative: `start`/`end` in UTC ISO-8601 and `expectedDown` /
@@ -132,9 +128,8 @@ they get their `https://status.narabenefits.com/...` URLs.
 | `nara-icon-64.png`                                                    | Per-service icon in the table above and on the site, in place of the default DuckDuckGo favicon service.                 |
 | `manifest.json`                                                       | PWA metadata, overriding Upptime's.                                                                                      |
 
-Colours come from [`AvantHealth/nara-brand`](https://github.com/AvantHealth/nara-brand): Forest
-`#0E3837` carries the navbar, Linen `#FFFBEC` the page, Leaf `#0A6F4F` marks up, Carrot `#FF8A45`
-degraded. The palette has no red, so the down state uses one documented off-palette value
+Colours come from the Nara brand palette: Forest `#0E3837` carries the navbar, Linen `#FFFBEC` the
+page, Leaf `#0A6F4F` marks up, Carrot `#FF8A45` degraded. The palette has no red, so the down state uses one documented off-palette value
 (`#B3261E`) — a status page has to distinguish "slow" from "broken" at a glance. Type is Instrument
 Serif for headings and Inter for everything else, loaded from Google Fonts.
 
@@ -148,9 +143,9 @@ Standing this repository up from scratch needs three things outside of it:
    `GITHUB_TOKEN` is read-only (`Contents: read`), so every Upptime workflow 403s — on `git push`,
    and on the `POST /issues` that opens an incident. Create a fine-grained personal access token
    scoped to this repository with read-write on **Actions, Contents, Issues and Workflows**, and
-   store it as `GH_PAT`. Issue it from **`narabenefits-admin`**, the shared continuity account, not
-   from a personal one — every uptime commit, incident and deploy is attributed to the token holder,
-   and a token tied to an individual dies silently when their access does
+   store it as `GH_PAT`. Issue it from the shared organisation bot account, not from a personal one
+   — every uptime commit, incident and deploy is attributed to the token holder, and a token tied to
+   an individual dies silently when their access does
    ([upstream instructions](https://upptime.js.org/docs/get-started#create-a-personal-access-token)).
    Every workflow here already prefers it: `${{ secrets.GH_PAT || github.token }}`.
 
@@ -161,10 +156,9 @@ Standing this repository up from scratch needs three things outside of it:
    `Update Template CI` run. And no permission setting of any kind lets `GITHUB_TOKEN` write
    `.github/workflows/`, which is precisely what `update-template` does. Hence the PAT.
 
-2. **DNS** — `status.narabenefits.com` `CNAME` → `narabenefits.github.io`, in
-   `aws/infra_851725292115/route53-narabenefits-com/main.tf` in `root-infrastructure`. A project
-   Pages site serves from `<owner>.github.io`, so the target follows the organisation: the pre-move
-   `avanthealth.github.io` is wrong now and will not serve.
+2. **DNS** — `status.narabenefits.com` `CNAME` → `narabenefits.github.io`, managed in the internal
+   infrastructure repository. A project Pages site serves from `<owner>.github.io`, so the target
+   follows the organisation: the pre-move target is wrong now and will not serve.
 3. **GitHub Pages** — deploy from the `gh-pages` branch, custom domain `status.narabenefits.com`,
    _Enforce HTTPS_ on. The `CNAME` file is written into the published output automatically from
    `status-website.cname`.
@@ -175,9 +169,9 @@ it is the NaraBenefits one, not the record issued to the old organisation.
 
 `secrets` in `.upptimerc.yml` is the complete allowlist: only a name listed there reaches the
 monitor. It holds one entry, `NOTIFICATION_SLACK_WEBHOOK_URL`, which stays inert until the matching
-repository secret exists. Adding it turns on incident notifications to **`#platform-status`** — the
-webhook's own channel binding is what actually decides the destination, so point it there when
-creating it.
+repository secret exists. Adding it turns on incident notifications to our internal Slack channel —
+the webhook's own channel binding is what decides the destination, so point it there when creating
+it.
 
 ## 📄 License
 
