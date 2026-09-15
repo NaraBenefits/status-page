@@ -6,7 +6,7 @@
  * so this file only declares custom properties (global.css reads them, it never
  * sets them). Selector-level styling lives in nara-brand.css.
  *
- * Palette source of truth: the internal brand repository → README.md.
+ * Palette source of truth: the internal Nara brand repository.
  */
 
 :root {
